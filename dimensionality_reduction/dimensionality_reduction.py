@@ -33,7 +33,14 @@ def run_kernelpca(
 
 
 @app.post("/umap")
-def run_umap(array: list, n_neighbors: int = 30, standardize: bool = False):
+def run_umap(
+    array: list,
+    n_components=2,
+    n_neighbors: int = 30,
+    min_dist: float = 0.1,
+    metric: str = "euclidean",
+    standardize: bool = False,
+):
     ...
 
 
