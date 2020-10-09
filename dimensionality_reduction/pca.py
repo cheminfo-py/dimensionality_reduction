@@ -1,1 +1,48 @@
+# -*- coding: utf-8 -*-
+from typing import Optional
+
+import numpy as np
 from sklearn.decomposition import PCA, KernelPCA
+
+from .model import DimensionalityReduction
+
+
+class KernelPCAModel(DimensionalityReduction):
+    kernel: str = "rbf"
+    gamma: float = None
+    degree: float = None
+    coef: float = None
+    alpha: float = None
+
+
+def kernel_pca(
+    array: np.ndarray,
+    n_components: int,
+    kernel: str,
+    gamma: float,
+    degree: int,
+    coef0: float,
+    alpha: float,
+):
+
+    kernel_pca_instance = KernelPCA(
+        n_components=n_components,
+        kernel=kernel,
+        gamma=gamma,
+        degree=degree,
+        coef0=coef0,
+        alpha=alpha,
+    )
+
+    X_transformed = kernel_pca_instance.fit_transform(array)
+
+    return {"projection": X_transformed.tolist()}
+
+
+def pca(array: np.ndarray, n_components: int):
+
+    pca_instance = PCA(n_components=n_components)
+
+    X_transformed = pca_instance.fit_transform(array)
+
+    return {"projection": X_transformed.tolist()}

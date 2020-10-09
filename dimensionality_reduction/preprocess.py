@@ -1,16 +1,16 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 
 def convert_to_array(array: list, standardize: bool = False) -> np.ndarray:
     try:
-        array = np.array(list)
+        array = np.array(array)
+        assert len(array.shape) == 2
 
-        assert len(np.array.shape) == 2
-
-    except Exception:
+    except Exception as execp:
         raise ValueError(
-            "Make sure the input is a list of list that can be mapped to a numpy array with two dimensions"
+            f"Make sure the input is a list of list that can be mapped to a numpy array with two dimensions, {execp}"
         )
 
     if standardize:
