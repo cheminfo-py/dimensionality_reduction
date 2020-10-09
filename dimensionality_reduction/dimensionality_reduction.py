@@ -7,6 +7,7 @@ import logging
 
 from fastapi import FastAPI, HTTPException
 from pydantic import ValidationError
+from fastapi.responses import HTMLResponse
 
 from . import __version__
 from .manifold import (
@@ -23,9 +24,29 @@ from .model import DimensionalityReduction, DimensionalityReductionResponse
 from .pca import KernelPCAModel, kernel_pca, pca
 from .preprocess import convert_to_array
 
-app = FastAPI()
+app = FastAPI(
+    title="Dimensionality Reduction",
+    description="Offers dimensionality reduction and manifold learning techniques",
+    version=__version__,
+)
 
 logger = logging.getLogger("api")
+
+
+@app.get("/", response_class=HTMLResponse)
+def root():
+    return """
+    <html>
+        <head>
+            <title>Dimensionality reduction</title>
+        </head>
+        <h1> Dimensionality reduction </h1>
+        <body>
+            <p>This webservice provides dimensionality reduction and manifold learning techniques.</p>
+            <p>Find the docs at <a href="./docs">/docs</a> and the openAPI specfication at <a href="./openapi.json">/openapi.json</a>.</p>
+        </body>
+    </html>
+    """
 
 
 @app.get("/version")
