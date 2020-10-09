@@ -20,4 +20,3 @@ class DimensionalityReduction(BaseModel):
 class DimensionalityReductionResponse(BaseModel):
     projection: list
     api_version: Optional[str] = __version__
-

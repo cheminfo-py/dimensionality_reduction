@@ -9,7 +9,16 @@ from fastapi import FastAPI, HTTPException
 from pydantic import ValidationError
 
 from . import __version__
-from .manifold import tsne, umap, isomap, UMAPModel, TSNEModel, IsomapModel
+from .manifold import (
+    tsne,
+    umap,
+    isomap,
+    lle,
+    UMAPModel,
+    TSNEModel,
+    IsomapModel,
+    LLEModel,
+)
 from .model import DimensionalityReduction, DimensionalityReductionResponse
 from .pca import KernelPCAModel, kernel_pca, pca
 from .preprocess import convert_to_array
@@ -108,17 +117,17 @@ def run_tsne(parameters: TSNEModel):
 def run_isomap(parameters: IsomapModel):
     array = validate_array(parameters.array, parameters.standardize)
     try:
-        return tsne(array, parameters.n_components, parameters.n_neighbors)
+        return isomap(array, parameters.n_components, parameters.n_neighbors)
     except Exception:
         raise HTTPException(status_code=400, detail="Isomap failed")
 
 
 @app.post("/lle", response_model=DimensionalityReductionResponse)
-def run_lle(
-    array: list,
-    n_neighbors: int = 5,
-    n_components: int = 2,
-    reg: float = 0.001,
-    standardize: bool = False,
-):
+def run_lle(parameters: LLEModel,):
     array = validate_array(parameters.array, parameters.standardize)
+    try:
+        return lle(
+            array, parameters.n_components, parameters.n_neighbors, parameters.reg
+        )
+    except Exception:
+        raise HTTPException(status_code=400, detail="LLE failed")

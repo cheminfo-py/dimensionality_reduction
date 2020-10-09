@@ -2,7 +2,7 @@
 
 ![Docker Image Build and Test CI](https://github.com/cheminfo-py/dimensionality_reduction/workflows/Docker%20Image%20Build%20CI/badge.svg)
 
-This is a webservice built using [FastAPI](https://github.com/tiangolo/fastapi).
+This is a webservice built using [FastAPI](https://github.com/tiangolo/fastapi). It exposes dimensionality reduction and manifold learning techniques from the [sklearn Python package](https://scikit-learn.org/stable/index.html). 
 
 ## Usage
 

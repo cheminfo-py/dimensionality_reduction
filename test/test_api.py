@@ -42,3 +42,19 @@ def test_tsne(get_data):
     body = response.json()
     assert "projection" in body.keys()
     assert "api_version" in body.keys()
+
+
+def test_isomap(get_data):
+    response = client.post("/isomap", json={"array": get_data})
+    assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()
+
+
+def test_lle(get_data):
+    response = client.post("/lle", json={"array": get_data})
+    assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()
