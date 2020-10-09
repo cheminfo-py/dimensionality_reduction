@@ -15,3 +15,30 @@ def test_read_main():
 def test_pca(get_data):
     response = client.post("/pca", json={"array": get_data})
     assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()
+
+
+def test_kernel_pca(get_data):
+    response = client.post("/kernelpca", json={"array": get_data})
+    assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()
+
+
+def test_umap(get_data):
+    response = client.post("/umap", json={"array": get_data})
+    assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()
+
+
+def test_tsne(get_data):
+    response = client.post("/umap", json={"array": get_data})
+    assert response.status_code == 200
+    body = response.json()
+    assert "projection" in body.keys()
+    assert "api_version" in body.keys()

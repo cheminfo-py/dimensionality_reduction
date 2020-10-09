@@ -1,9 +1,30 @@
 # -*- coding: utf-8 -*-
-from math import e
-
+from typing import Optional
 import numpy as np
-from sklearn.manifold import TSNE
+from sklearn.manifold import TSNE, Isomap
 from umap import UMAP
+from .model import DimensionalityReduction
+from . import __version__
+
+
+class UMAPModel(DimensionalityReduction):
+    n_neighbors: Optional[int] = 15
+    min_dist: Optional[float] = 0.1
+    metric: Optional[str] = "euclidean"
+
+
+class TSNEModel(DimensionalityReduction):
+    perplexity: Optional[float] = 30.0
+    early_exaggeration: Optional[float] = 12.0
+    learning_rate: Optional[float] = 200.0
+    n_iter: Optional[int] = 1000
+    n_iter_without_progress: Optional[int] = 300
+    min_grad_norm: Optional[float] = 1e-07
+    metric: Optional[str] = "euclidean"
+
+
+class IsomapModel(DimensionalityReduction):
+    n_neighbors: Optional[int] = 5
 
 
 def umap(
@@ -14,11 +35,16 @@ def umap(
     metric: str = "euclidean",
 ):
 
-    umap_instance = UMAP(n_neighbors=n_neighbors, min_dist=min_dist, metric=metric)
+    umap_instance = UMAP(
+        n_components=n_components,
+        n_neighbors=n_neighbors,
+        min_dist=min_dist,
+        metric=metric,
+    )
 
-    X_transformed = umap_instance.fit_transform()
+    X_transformed = umap_instance.fit_transform(array)
 
-    return {"projection": X_transformed.tolist()}
+    return {"projection": X_transformed.tolist(), "api_version": __version__}
 
 
 def tsne(
@@ -43,6 +69,14 @@ def tsne(
         metric=metric,
     )
 
-    X_transformed = tsne_instance.fit_transform()
+    X_transformed = tsne_instance.fit_transform(array)
 
-    return {"projection": X_transformed.tolist()}
+    return {"projection": X_transformed.tolist(), "api_version": __version__}
+
+
+def isomap(
+    array: np.ndarray, n_components: int = 2, n_neighbors: int = 5,
+):
+    isomap_instance = Isomap(n_components=n_components, n_neighbors=n_neighbors)
+    X_transformed = isomap_instance.fit_transform(array)
+    return {"projection": X_transformed.tolist(), "api_version": __version__}

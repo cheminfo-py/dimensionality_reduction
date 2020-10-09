@@ -5,14 +5,15 @@ import numpy as np
 from sklearn.decomposition import PCA, KernelPCA
 
 from .model import DimensionalityReduction
+from . import __version__
 
 
 class KernelPCAModel(DimensionalityReduction):
-    kernel: str = "rbf"
-    gamma: float = None
-    degree: float = None
-    coef: float = None
-    alpha: float = None
+    kernel: Optional[str] = "rbf"
+    gamma: Optional[float] = None
+    degree: Optional[float] = None
+    coef: Optional[float] = None
+    alpha: Optional[float] = None
 
 
 def kernel_pca(
@@ -36,7 +37,7 @@ def kernel_pca(
 
     X_transformed = kernel_pca_instance.fit_transform(array)
 
-    return {"projection": X_transformed.tolist()}
+    return {"projection": X_transformed.tolist(), "api_version": __version__}
 
 
 def pca(array: np.ndarray, n_components: int):
@@ -45,4 +46,4 @@ def pca(array: np.ndarray, n_components: int):
 
     X_transformed = pca_instance.fit_transform(array)
 
-    return {"projection": X_transformed.tolist()}
+    return {"projection": X_transformed.tolist(), "api_version": __version__}
