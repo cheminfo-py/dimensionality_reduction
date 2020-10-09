@@ -5,11 +5,11 @@ import sys
 import requests
 
 
-r = requests.post("http://localhost:8091/version/")
+r = requests.get("http://localhost:8091/version/")
 keys = r.json().keys()
-
 if "version" in keys:
-    print("PXRD prediction API works")
+    print("OK")
     sys.exit(0)
 else:
+    print("error")
     sys.exit(1)
