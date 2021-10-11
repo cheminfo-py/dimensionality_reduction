@@ -7,7 +7,7 @@ from . import __version__
 
 
 class DimensionalityReduction(BaseModel):
-    array: list
+    matrix: list
     n_components: Optional[int] = 2
     standardize: Optional[bool] = True
 
