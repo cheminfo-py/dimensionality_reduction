@@ -8,3 +8,4 @@ fastapi_versioning
 wrapt_timeout_decorator
 sklearn
 umap-learn
+numpy<=1.19.5
