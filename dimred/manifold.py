@@ -32,7 +32,7 @@ METRIC_LITERAL = Literal[
 class UMAPModel(DimensionalityReduction):
     n_neighbors: Optional[int] = 15
     min_dist: Optional[float] = 0.1
-    metric: Optional[str] = METRIC_LITERAL
+    metric: Optional[METRIC_LITERAL] = 'euclidean'
 
 
 class TSNEModel(DimensionalityReduction):
@@ -42,7 +42,7 @@ class TSNEModel(DimensionalityReduction):
     n_iter: Optional[int] = 1000
     n_iter_without_progress: Optional[int] = 300
     min_grad_norm: Optional[float] = 1e-07
-    metric: Optional[str] = METRIC_LITERAL
+    metric: Optional[METRIC_LITERAL] = 'euclidean'
 
 
 class IsomapModel(DimensionalityReduction):
@@ -102,9 +102,7 @@ def tsne(
 
 
 def isomap(
-    array: np.ndarray,
-    n_components: int = 2,
-    n_neighbors: int = 5,
+    array: np.ndarray, n_components: int = 2, n_neighbors: int = 5,
 ):
     isomap_instance = Isomap(n_components=n_components, n_neighbors=n_neighbors)
     X_transformed = isomap_instance.fit_transform(array)

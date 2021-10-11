@@ -9,7 +9,7 @@ from .model import DimensionalityReduction
 
 
 class KernelPCAModel(DimensionalityReduction):
-    kernel: Optional[str] = Literal["linear", "poly", "rbf", "sigmoid", "cosine"]
+    kernel: Optional[Literal["linear", "poly", "rbf", "sigmoid", "cosine"]] = 'rbf'
     gamma: Optional[float] = None
     degree: Optional[float] = None
     coef: Optional[float] = None
