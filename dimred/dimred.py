@@ -80,7 +80,7 @@ def validate_array(array, standardize):
 @version(1)
 def run_pca(parameters: DimensionalityReduction):
 
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
 
     try:
         return pca(array, parameters.n_components)
@@ -92,7 +92,7 @@ def run_pca(parameters: DimensionalityReduction):
 @app.post("/kernelpca", response_model=DimensionalityReductionResponse)
 @version(1)
 def run_kernelpca(parameters: KernelPCAModel):
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
 
     try:
         return kernel_pca(
@@ -112,7 +112,7 @@ def run_kernelpca(parameters: KernelPCAModel):
 @app.post("/umap", response_model=DimensionalityReductionResponse)
 @version(1)
 def run_umap(parameters: UMAPModel):
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
 
     try:
         return umap(
@@ -129,7 +129,7 @@ def run_umap(parameters: UMAPModel):
 @app.post("/tsne", response_model=DimensionalityReductionResponse)
 @version(1)
 def run_tsne(parameters: TSNEModel):
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
 
     try:
         return tsne(
@@ -150,7 +150,7 @@ def run_tsne(parameters: TSNEModel):
 @app.post("/isomap", response_model=DimensionalityReductionResponse)
 @version(1)
 def run_isomap(parameters: IsomapModel):
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
     try:
         return isomap(array, parameters.n_components, parameters.n_neighbors)
     except Exception:
@@ -160,7 +160,7 @@ def run_isomap(parameters: IsomapModel):
 @app.post("/lle", response_model=DimensionalityReductionResponse)
 @version(1)
 def run_lle(parameters: LLEModel,):
-    array = validate_array(parameters.array, parameters.standardize)
+    array = validate_array(parameters.matrix, parameters.standardize)
     try:
         return lle(
             array, parameters.n_components, parameters.n_neighbors, parameters.reg

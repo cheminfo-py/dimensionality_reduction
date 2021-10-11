@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 def convert_to_array(array: list, standardize: bool = False) -> np.ndarray:
     try:
-        array = np.array(array)
+        array = np.matrix(array)
         assert len(array.shape) == 2
 
     except Exception as execp:
