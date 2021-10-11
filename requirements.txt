@@ -6,3 +6,5 @@ uvloop==0.15
 diskcache
 fastapi_versioning
 wrapt_timeout_decorator
+sklearn
+umap-learn
