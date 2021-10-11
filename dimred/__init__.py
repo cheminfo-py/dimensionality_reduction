@@ -14,4 +14,4 @@ del get_versions, versions
 
 
 # Add imports here
-from .dimensionality_reduction import app
+from .dimred import app

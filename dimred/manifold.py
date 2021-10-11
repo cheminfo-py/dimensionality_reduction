@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from typing import Optional
+
 import numpy as np
 from sklearn.manifold import TSNE, Isomap, LocallyLinearEmbedding
 from umap import UMAP
-from .model import DimensionalityReduction
+
 from . import __version__
+from .model import DimensionalityReduction
 
 
 class UMAPModel(DimensionalityReduction):
@@ -92,7 +94,6 @@ def lle(array, n_components: int = 2, n_neighbors: int = 4, reg: float = 0.0001)
     lle_instance = LocallyLinearEmbedding(
         n_components=n_components, n_neighbors=n_neighbors, reg=reg
     )
-    
+
     X_transformed = lle_instance.fit_transform(array)
     return {"projection": X_transformed.tolist(), "api_version": __version__}
-

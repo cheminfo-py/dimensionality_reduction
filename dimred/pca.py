@@ -4,8 +4,8 @@ from typing import Optional
 import numpy as np
 from sklearn.decomposition import PCA, KernelPCA
 
-from .model import DimensionalityReduction
 from . import __version__
+from .model import DimensionalityReduction
 
 
 class KernelPCAModel(DimensionalityReduction):

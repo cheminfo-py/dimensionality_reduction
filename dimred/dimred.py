@@ -6,34 +6,42 @@ REST-API serving dimensionality reduction techniques
 import logging
 
 from fastapi import FastAPI, HTTPException
-from pydantic import ValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from fastapi_versioning import VersionedFastAPI, version
+from pydantic import ValidationError
+from starlette.middleware import Middleware
 
 from . import __version__
 from .manifold import (
-    tsne,
-    umap,
-    isomap,
-    lle,
-    UMAPModel,
-    TSNEModel,
     IsomapModel,
     LLEModel,
+    TSNEModel,
+    UMAPModel,
+    isomap,
+    lle,
+    tsne,
+    umap,
 )
 from .model import DimensionalityReduction, DimensionalityReductionResponse
 from .pca import KernelPCAModel, kernel_pca, pca
 from .preprocess import convert_to_array
 
+ALLOWED_HOSTS = ["*"]
+
 app = FastAPI(
     title="Dimensionality Reduction",
     description="Offers dimensionality reduction and manifold learning techniques",
     version=__version__,
+    contact={"name": "Cheminfo", "email": "admin@cheminfo.org",},
+    license_info={"name": "MIT"},
 )
 
 logger = logging.getLogger("api")
 
 
 @app.get("/", response_class=HTMLResponse)
+@version(1)
 def root():
     return """
     <html>
@@ -49,7 +57,8 @@ def root():
     """
 
 
-@app.get("/version")
+@app.get("/app_version")
+@version(1)
 def read_version():
     return {"version": __version__}
 
@@ -68,6 +77,7 @@ def validate_array(array, standardize):
 
 
 @app.post("/pca", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_pca(parameters: DimensionalityReduction):
 
     array = validate_array(parameters.array, parameters.standardize)
@@ -80,6 +90,7 @@ def run_pca(parameters: DimensionalityReduction):
 
 
 @app.post("/kernelpca", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_kernelpca(parameters: KernelPCAModel):
     array = validate_array(parameters.array, parameters.standardize)
 
@@ -99,6 +110,7 @@ def run_kernelpca(parameters: KernelPCAModel):
 
 
 @app.post("/umap", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_umap(parameters: UMAPModel):
     array = validate_array(parameters.array, parameters.standardize)
 
@@ -115,6 +127,7 @@ def run_umap(parameters: UMAPModel):
 
 
 @app.post("/tsne", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_tsne(parameters: TSNEModel):
     array = validate_array(parameters.array, parameters.standardize)
 
@@ -135,6 +148,7 @@ def run_tsne(parameters: TSNEModel):
 
 
 @app.post("/isomap", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_isomap(parameters: IsomapModel):
     array = validate_array(parameters.array, parameters.standardize)
     try:
@@ -144,6 +158,7 @@ def run_isomap(parameters: IsomapModel):
 
 
 @app.post("/lle", response_model=DimensionalityReductionResponse)
+@version(1)
 def run_lle(parameters: LLEModel,):
     array = validate_array(parameters.array, parameters.standardize)
     try:
@@ -152,3 +167,19 @@ def run_lle(parameters: LLEModel,):
         )
     except Exception:
         raise HTTPException(status_code=400, detail="LLE failed")
+
+
+app = VersionedFastAPI(
+    app,
+    version_format="{major}",
+    prefix_format="/v{major}",
+    middleware=[
+        Middleware(
+            CORSMiddleware,
+            allow_origins=ALLOWED_HOSTS,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    ],
+)

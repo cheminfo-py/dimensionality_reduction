@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from . import __version__
 from typing import Optional
 
 from pydantic import BaseModel, validator
+
+from . import __version__
 
 
 class DimensionalityReduction(BaseModel):
