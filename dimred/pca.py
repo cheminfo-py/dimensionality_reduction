@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import Optional
+from typing import Literal, Optional
 
 import numpy as np
 from sklearn.decomposition import PCA, KernelPCA
@@ -9,7 +9,7 @@ from .model import DimensionalityReduction
 
 
 class KernelPCAModel(DimensionalityReduction):
-    kernel: Optional[str] = "rbf"
+    kernel: Optional[str] = Literal["linear", "poly", "rbf", "sigmoid", "cosine"]
     gamma: Optional[float] = None
     degree: Optional[float] = None
     coef: Optional[float] = None
